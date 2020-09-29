@@ -324,3 +324,107 @@ string Solution::getHint(string secret, string guess) {
     return  to_string(bulls) + "A"  + to_string(cows) + "B";
 }
 
+struct c{
+    int val;
+    c(int v)
+        :val(v)
+        {}
+    bool operator()(const int& a, const int& b){
+        return (a ^ val) < (b ^ val);
+    }
+};
+
+
+int Solution::findMaximumXOR(vector<int>& nums) {
+    auto v = (std::max_element(nums.begin(), nums.end()));
+        c C(*v);
+        auto v1 = std::max_element(nums.begin(), nums.end(), C);
+        
+        return (*v) ^ (*v1);
+}
+
+int Solution::lengthOfLastWord(string s) {
+        int counter =0;
+        bool flag = true;
+        for (int i = 0; i < s.length(); i++){
+            if (s[s.length() - i - 1] == ' '){
+                if (!flag)
+                    return counter;
+            }else{
+                flag = false;
+                counter++;
+            }
+                    
+            
+        }
+        return counter;
+}
+
+int Solution::canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        vector<int> gain;
+    int size = gas.size();
+    for (int i = 0; i < size; i++)
+        gain.push_back(gas[i] - cost[i]);
+
+    if (gain.size() == 1)
+        return (gain[0] < 0 ? -1 : 0);
+
+    int srt = 0, nxt = 1;
+    int gas_v = gain[srt];
+    while (srt != nxt) {
+        if (gas_v < 0) {
+            srt = (srt + size - 1) % size;
+            gas_v += gain[srt];
+        }
+        else {
+            gas_v += gain[nxt];
+            nxt = (nxt + 1) % size;
+        }
+    }
+
+    if (gas_v < 0)
+        return -1;
+
+    return srt;
+}
+
+char Solution::findTheDifference(string s, string t) {
+        const int MAX = 'z' - 'a' + 1;
+        int letters[MAX];
+        for (int i = 0; i < MAX; i++)
+            letters[i] = 0;
+        for (int i = 0; i < s.size(); i++)
+            letters[s[i] - 'a']++;
+        for (int i = 0; i < t.size(); i++){
+            int place = t[i] - 'a';
+            if (letters[place] == 0)
+                return t[i];
+            letters[place]--;
+        }
+        return 'a';
+}
+
+string Solution::largestNumber(vector<int>& nums) {
+        sort(nums.begin(),nums.end(),[](const int& a, const int& b){
+            return (to_string(a) + to_string(b)) > (to_string(b) + to_string(a));
+        });
+        
+        string answ;
+        for (const auto &num : nums){
+            answ += to_string(num);
+        }
+        if (answ[0]=='0')
+            return "0";
+        return answ;
+}
+
+int Solution::findPoisonedDuration(vector<int>& timeSeries, int duration) {
+        if (timeSeries.size() == 0)
+            return 0;
+        int answ = duration;
+        for (int i = 1; i < timeSeries.size(); i++){
+            answ += min(duration, timeSeries[i] - timeSeries[i-1]);
+        }
+        
+        return answ;
+}

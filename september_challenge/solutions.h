@@ -34,6 +34,19 @@ public:
     int compareVersion(string version1, string version2);
 
     string getHint(string secret, string guess);
+
+    int findMaximumXOR(vector<int>& nums);
+
+    int lengthOfLastWord(string s);
+
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost);
+
+    char findTheDifference(string s, string t);
+
+    string largestNumber(vector<int>& nums);
+
+    int findPoisonedDuration(vector<int>& timeSeries, int duration);
+
 };
 
 
